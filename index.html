@@ -8,22 +8,24 @@
 <body>
     <div class="container">
         <div class="input-wrapper">
-            <div class="glow-effect"></div>
             <div class="input-container">
-                <input type="text" placeholder="Ask your AI assistant..." class="ai-input" 
-                onkeydown="if(event.key === 'Enter') {
-                    const value = this.value;
-                    if(value.trim()) {
-                        this.setAttribute('data-pressed', 'true');
-                        this.closest('.input-container').querySelector('.button').click();
-                        setTimeout(() => {
-                            this.setAttribute('data-pressed', 'false');
-                            this.value = '';
-                            this.focus();
-                        }, 8000);
-                    }
-                }">
-                
+                <input 
+                    type="text" 
+                    class="ai-input" 
+                    placeholder="Ask your AI assistant..."
+                    onkeydown="if(event.key === 'Enter') {
+                        const value = this.value;
+                        if(value.trim()) {
+                            this.setAttribute('data-pressed', 'true');
+                            this.closest('.input-container').querySelector('.button').focus();
+                            setTimeout(() => {
+                                this.setAttribute('data-pressed', 'false');
+                                this.value = '';
+                                this.focus();
+                            }, 8000);
+                        }
+                    }"
+                >
                 <button class="button">
                     <div class="outline"></div>
                     <div class="state state--default">
@@ -42,17 +44,7 @@
                     <div class="state state--sent">
                         <div class="icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2">
-                                    <animateTransform
-                                        attributeName="transform"
-                                        attributeType="XML"
-                                        type="rotate"
-                                        from="0 12 12"
-                                        to="360 12 12"
-                                        dur="1s"
-                                        repeatCount="indefinite"
-                                    />
-                                </circle>
+                                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"></circle>
                             </svg>
                         </div>
                         <p>

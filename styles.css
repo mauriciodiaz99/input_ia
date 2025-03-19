@@ -58,6 +58,7 @@ body {
     overflow: hidden;
     display: flex;
     align-items: center;
+    padding-right: 10px;
     isolation: isolate;
 }
 .input-container:has(input:focus)::before,
@@ -99,14 +100,17 @@ body {
     opacity: 1;
 }
 .state--sent {
-    color: var(--text-color) !important; /* Mantener el texto blanco */
+    display: none;
+    color: var(--text-color);
 }
 
 .state--sent .icon {
     color: var(--thinking-color);
-    opacity: 1 !important;
+    opacity: 1;
     position: relative;
     left: -5px;
+    display: flex;
+    align-items: center;
 }
 .state--sent .icon svg {
     width: 20px;
@@ -156,6 +160,7 @@ body {
     min-width: 0;
     position: relative;
     z-index: 1;
+    width: calc(100% - 140px); /* Ajustar el ancho para dejar espacio al botón */
 }
 
 .ai-input::placeholder {
@@ -182,34 +187,15 @@ body {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-color);
-    --radius: 12px;
-    cursor: pointer;
-    border-radius: var(--radius);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-    border: none;
-    background: var(--button-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    transition: all 0.3s ease;
-    min-width: 100px;
-    padding: 12px;
-    height: 45px;
-    margin-right: 10px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-color);
-  }
-  .button:hover {
+}
+.button:hover {
     transform: scale(1.02);
     background: rgba(121, 40, 202, 0.25);
-  }
-  .button:active {
+}
+.button:active {
     transform: scale(0.98);
-  }
-  .button::after {
+}
+.button::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -230,11 +216,11 @@ body {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
 }
-  .button:hover::after {
+.button:hover::after {
     opacity: 0.8;
     filter: brightness(1.2);
-  }
-  .button::before {
+}
+.button::before {
     content: "";
     inset: 7px 6px 6px 6px;
     position: absolute;
@@ -242,13 +228,13 @@ body {
     border-radius: 30px;
     filter: blur(0.5px);
     z-index: 2;
-  }
-  .state p {
+}
+.state p {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .state .icon {
+}
+.state .icon {
     position: absolute;
     left: 0;
     top: 0;
@@ -259,12 +245,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .state .icon svg {
+}
+.state .icon svg {
     overflow: visible;
-  }
-  
-  /* Añadir estos estilos al CSS existente */
+}
+
+/* Añadir estos estilos al CSS existente */
 
 /* Estilo cuando se presiona Enter */
 .input-container:has(input[data-pressed="true"]) .button {
@@ -316,8 +302,8 @@ body {
     opacity: 0.7;
 }
 
-  /* Outline */
-  .outline {
+/* Outline */
+.outline {
     position: absolute;
     border-radius: inherit;
     overflow: hidden;
@@ -325,48 +311,48 @@ body {
     opacity: 0;
     transition: opacity 0.4s ease;
     inset: -2px -3.5px;
-  }
-  .outline::before {
+}
+.outline::before {
     background: conic-gradient(
         from 180deg,
         transparent 60%,
         var(--thinking-color) 80%,
         transparent 100%
     );
-  }
-  @keyframes spin {
+}
+@keyframes spin {
     0% {
       transform: rotate(0deg);
     }
     100% {
       transform: rotate(360deg);
     }
-  }
-  .button:hover .outline {
+}
+.button:hover .outline {
     opacity: 1;
-  }
-  .button:hover .outline::before {
+}
+.button:hover .outline::before {
     animation-play-state: running;
-  }
-  .button:focus .state--sent span,
+}
+.button:focus .state--sent span,
 .input-container:has(input[data-pressed="true"]) .state--sent span {
     opacity: 0;
     animation: fadeInLetter 0.5s ease forwards calc(var(--i) * 0.1s);
 }
-  /* Letters */
-  .state p span {
+/* Letters */
+.state p span {
     display: block;
     opacity: 0;
     animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
-  }
-  .button:hover p span {
+}
+.button:hover p span {
     color: var(--secondary-glow);
-  }
-  .button:focus p span {
+}
+.button:focus p span {
     opacity: 1;
     animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
-  }
-  @keyframes wave {
+}
+@keyframes wave {
     30% {
         transform: translateY(4px) translateX(0) rotate(0);
         color: var(--text-color);
@@ -379,8 +365,8 @@ body {
         transform: translateY(0) translateX(0) rotate(0);
         color: var(--text-color);
     }
-  }
-  @keyframes slideDown {
+}
+@keyframes slideDown {
     0% {
       opacity: 0;
       transform: translateY(-20px) translateX(5px) rotate(-90deg);
@@ -400,8 +386,8 @@ body {
       opacity: 1;
       transform: translateY(0) translateX(0) rotate(0);
     }
-  }
-  @keyframes disapear {
+}
+@keyframes disapear {
     from {
       opacity: 1;
     }
@@ -411,27 +397,27 @@ body {
       color: var(--primary);
       filter: blur(5px);
     }
-  }
-  
-  /* Plane */
-  .state--default .icon svg {
+}
+
+/* Plane */
+.state--default .icon svg {
     animation: land 0.6s ease forwards;
-  }
-  .button:hover .state--default .icon {
+}
+.button:hover .state--default .icon {
     transform: rotate(45deg) scale(1.25);
-  }
-  .button:focus .state--default svg {
+}
+.button:focus .state--default svg {
     animation: takeOff 0.8s linear forwards;
-  }
-  .button:focus .state--default .icon {
+}
+.button:focus .state--default .icon {
     transform: rotate(0) scale(1.25);
-  }
-  .button:focus .state--default span,
+}
+.button:focus .state--default span,
 .input-container:has(input[data-pressed="true"]) .button .state--default span {
     opacity: 1;
     animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
 }
-  @keyframes takeOff {
+@keyframes takeOff {
     0% {
       opacity: 1;
     }
@@ -443,8 +429,8 @@ body {
       opacity: 0;
       transform: translateX(160px) rotate(45deg) scale(0);
     }
-  }
-  @keyframes land {
+}
+@keyframes land {
     0% {
       transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
       opacity: 0;
@@ -455,8 +441,8 @@ body {
       opacity: 1;
       filter: blur(0);
     }
-  }
-  .state--default {
+}
+.state--default {
     display: flex;
     color: var(--text-color);
 }
@@ -465,8 +451,8 @@ body {
     color: var(--text-color);
     opacity: 0.9;
 }
-  /* Contrail */
-  .state--default .icon:before {
+/* Contrail */
+.state--default .icon:before {
     content: "";
     position: absolute;
     top: 50%;
@@ -474,11 +460,11 @@ body {
     width: 0;
     left: -5px;
     background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
-  }
-  .button:focus .state--default .icon:before {
+}
+.button:focus .state--default .icon:before {
     animation: contrail 0.8s linear forwards;
-  }
-  @keyframes contrail {
+}
+@keyframes contrail {
     0% {
       width: 0;
       opacity: 1;
@@ -494,44 +480,43 @@ body {
       opacity: 0;
       width: 160px;
     }
-  }
-  
-  /* States */
-  .state {
+}
+
+/* States */
+.state {
     padding-left: 29px;
     z-index: 2;
     display: flex;
     position: relative;
-  }
-  .state--default span:nth-child(4) {
+}
+.state--default span:nth-child(4) {
     margin-right: 5px;
-  }
-  .state--sent {
+}
+.state--sent {
     color: var(--text-color) !important;
     opacity: 1 !important;
     display: none;
-  }
-  .state--sent svg {
+}
+.state--sent svg {
     transform: scale(1.25);
     margin-right: 8px;
-  }
-  .button:focus .state--default {
+}
+.button:focus .state--default {
     position: absolute;
-  }
-  .button:focus .state--sent,
-  .input-container:has(input[data-pressed="true"]) .state--sent {
-      display: flex;
-      animation: fadeIn 0.3s ease forwards;
-  }
-  .button:focus .state--sent span {
+}
+.button:focus .state--sent,
+.input-container:has(input[data-pressed="true"]) .state--sent {
+    display: flex;
+    animation: fadeIn 0.3s ease forwards;
+}
+.button:focus .state--sent span {
     opacity: 0;
     animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
-  }
-  .button:focus .state--sent .icon svg {
+}
+.button:focus .state--sent .icon svg {
     opacity: 0;
     animation: appear 1.2s ease forwards 0.8s;
-  }
-  
+}
 
 /* Animations */
 @keyframes pulseAndRotate {
@@ -553,7 +538,7 @@ body {
         transform: rotate(360deg);
     }
 }
-  @keyframes appear {
+@keyframes appear {
     0% {
         opacity: 0;
         transform: scale(4) rotate(-40deg);
@@ -564,7 +549,7 @@ body {
         transform: scale(1);
         color: var(--text-color);
     }
-  }
+}
 @keyframes gridMove {
     0% {
         transform: translateY(0);
