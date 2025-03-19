@@ -1,0 +1,692 @@
+:root {
+    --primary-glow: #7928CA;
+    --secondary-glow: #FF0080;
+    --background: #0a0a0f;
+    --input-bg: rgba(16, 16, 20, 0.95);
+    --text-color: #fff;
+    --placeholder-color: #9ca3af;
+    --button-bg: rgba(121, 40, 202, 0.15);
+    --button-border: rgba(255, 0, 128, 0.3);
+    --thinking-color: #a099d8;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    position: relative;
+}
+
+/* Grid Background */
+.container::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    right: -100%;
+    bottom: -100%;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+    animation: gridMove 15s linear infinite;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Glow Effect */
+.input-container {
+    position: relative;
+    background: var(--input-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    isolation: isolate;
+}
+.input-container:has(input:focus)::before,
+.input-container:has(input:not(:placeholder-shown))::before {
+    opacity: 1;
+    transform: scale(1);
+    animation: pulseAndRotate 4s linear infinite;
+}
+
+.input-container:has(input:focus)::after,
+.input-container:has(input:not(:placeholder-shown))::after {
+    opacity: 0.5;
+}
+/* Efecto de brillo con múltiples gradientes */
+.input-container::before {
+    content: '';
+    position: absolute;
+    inset: -100%;
+    background: 
+        radial-gradient(
+            circle at 50% 50%, 
+            rgba(121, 40, 202, 0.15) 0%, 
+            transparent 50%
+        ),
+        linear-gradient(
+            45deg,
+            transparent 0%,
+            rgba(255, 0, 128, 0.1) 45%,
+            rgba(121, 40, 202, 0.1) 55%,
+            transparent 100%
+        );
+    opacity: 0;
+    transition: all 0.5s ease;
+    animation: shimmer 4s linear infinite;
+}
+.input-container:hover::before,
+.input-container:has(input:focus)::before,
+.input-container:has(input:not(:placeholder-shown))::before {
+    opacity: 1;
+}
+.state--sent {
+    color: var(--text-color) !important; /* Mantener el texto blanco */
+}
+
+.state--sent .icon {
+    color: var(--thinking-color);
+    opacity: 1 !important;
+    position: relative;
+    left: -5px;
+}
+.state--sent .icon svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+.state--sent .icon svg circle {
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-dasharray: 2 2;
+    fill: none;
+}
+/* Brillo adicional en los bordes */
+.input-container::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(
+        90deg,
+        var(--primary-glow),
+        var(--secondary-glow),
+        var(--primary-glow)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -2;
+    border-radius: inherit;
+    filter: blur(5px);
+}
+.input-container:hover::after {
+    opacity: 0.5;
+}
+.input-container:hover {
+    border-color: rgba(255,255,255,0.2);
+    box-shadow: 
+        0 0 20px rgba(121, 40, 202, 0.2),
+        0 0 30px rgba(255, 0, 128, 0.2);
+}
+.ai-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 16px 20px;
+    font-size: 16px;
+    color: var(--text-color);
+    outline: none;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.ai-input::placeholder {
+    color: var(--placeholder-color);
+}
+
+.button {    
+    --radius: 12px;
+    cursor: pointer;
+    border-radius: var(--radius);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    border: none;
+    background: var(--button-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    padding: 12px;
+    height: 45px;
+    margin-right: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    --radius: 12px;
+    cursor: pointer;
+    border-radius: var(--radius);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    border: none;
+    background: var(--button-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    min-width: 100px;
+    padding: 12px;
+    height: 45px;
+    margin-right: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+  .button:hover {
+    transform: scale(1.02);
+    background: rgba(121, 40, 202, 0.25);
+  }
+  .button:active {
+    transform: scale(0.98);
+  }
+  .button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: 1px;
+    background: linear-gradient(
+        45deg,
+        var(--primary-glow),
+        var(--secondary-glow),
+        var(--primary-glow)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+  .button:hover::after {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+  .button::before {
+    content: "";
+    inset: 7px 6px 6px 6px;
+    position: absolute;
+    background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+    border-radius: 30px;
+    filter: blur(0.5px);
+    z-index: 2;
+  }
+  .state p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .state .icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transform: scale(1.25);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .state .icon svg {
+    overflow: visible;
+  }
+  
+  /* Añadir estos estilos al CSS existente */
+
+/* Estilo cuando se presiona Enter */
+.input-container:has(input[data-pressed="true"]) .button {
+    animation: pressButton 0.2s ease forwards;
+}
+
+.input-container:has(input[data-pressed="true"]) .button .state--default {
+    position: absolute;
+}
+
+.input-container:has(input[data-pressed="true"]) .button .state--sent {
+    display: flex;
+}
+
+.input-container:has(input[data-pressed="true"]) .button .state--sent span {
+    opacity: 0;
+    animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
+}
+
+.input-container:has(input[data-pressed="true"]) .button .state--sent .icon svg {
+    opacity: 0;
+    animation: appear 1.2s ease forwards 0.8s;
+}
+
+.input-container:has(input[data-pressed="true"]) .button .state--default svg {
+    animation: takeOff 0.8s linear forwards;
+}
+
+.input-container:has(input[data-pressed="true"]) .button .state--default .icon {
+    transform: rotate(0) scale(1.25);
+}
+
+/* Animación de presionar el botón */
+@keyframes pressButton {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* También puedes añadir un efecto de deshabilitación del input mientras procesa */
+.input-container:has(input[data-pressed="true"]) .ai-input {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+  /* Outline */
+  .outline {
+    position: absolute;
+    border-radius: inherit;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    inset: -2px -3.5px;
+  }
+  .outline::before {
+    background: conic-gradient(
+        from 180deg,
+        transparent 60%,
+        var(--thinking-color) 80%,
+        transparent 100%
+    );
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .button:hover .outline {
+    opacity: 1;
+  }
+  .button:hover .outline::before {
+    animation-play-state: running;
+  }
+  .button:focus .state--sent span,
+.input-container:has(input[data-pressed="true"]) .state--sent span {
+    opacity: 0;
+    animation: fadeInLetter 0.5s ease forwards calc(var(--i) * 0.1s);
+}
+  /* Letters */
+  .state p span {
+    display: block;
+    opacity: 0;
+    animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+  }
+  .button:hover p span {
+    color: var(--secondary-glow);
+  }
+  .button:focus p span {
+    opacity: 1;
+    animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
+  }
+  @keyframes wave {
+    30% {
+        transform: translateY(4px) translateX(0) rotate(0);
+        color: var(--text-color);
+    }
+    50% {
+        transform: translateY(-3px) translateX(0) rotate(0);
+        color: var(--secondary-glow);
+    }
+    100% {
+        transform: translateY(0) translateX(0) rotate(0);
+        color: var(--text-color);
+    }
+  }
+  @keyframes slideDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px) translateX(5px) rotate(-90deg);
+      color: var(--primary);
+      filter: blur(5px);
+    }
+    30% {
+      opacity: 1;
+      transform: translateY(4px) translateX(0) rotate(0);
+      filter: blur(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-3px) translateX(0) rotate(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) translateX(0) rotate(0);
+    }
+  }
+  @keyframes disapear {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: translateX(5px) translateY(20px);
+      color: var(--primary);
+      filter: blur(5px);
+    }
+  }
+  
+  /* Plane */
+  .state--default .icon svg {
+    animation: land 0.6s ease forwards;
+  }
+  .button:hover .state--default .icon {
+    transform: rotate(45deg) scale(1.25);
+  }
+  .button:focus .state--default svg {
+    animation: takeOff 0.8s linear forwards;
+  }
+  .button:focus .state--default .icon {
+    transform: rotate(0) scale(1.25);
+  }
+  .button:focus .state--default span,
+.input-container:has(input[data-pressed="true"]) .button .state--default span {
+    opacity: 1;
+    animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
+}
+  @keyframes takeOff {
+    0% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 1;
+      transform: translateX(70px) rotate(45deg) scale(2);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(160px) rotate(45deg) scale(0);
+    }
+  }
+  @keyframes land {
+    0% {
+      transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
+      opacity: 0;
+      filter: blur(3px);
+    }
+    100% {
+      transform: translateX(0) translateY(0) rotate(0);
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+  .state--default {
+    display: flex;
+    color: var(--text-color);
+}
+
+.state .icon {
+    color: var(--text-color);
+    opacity: 0.9;
+}
+  /* Contrail */
+  .state--default .icon:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    width: 0;
+    left: -5px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
+  }
+  .button:focus .state--default .icon:before {
+    animation: contrail 0.8s linear forwards;
+  }
+  @keyframes contrail {
+    0% {
+      width: 0;
+      opacity: 1;
+    }
+    8% {
+      width: 15px;
+    }
+    60% {
+      opacity: 0.7;
+      width: 80px;
+    }
+    100% {
+      opacity: 0;
+      width: 160px;
+    }
+  }
+  
+  /* States */
+  .state {
+    padding-left: 29px;
+    z-index: 2;
+    display: flex;
+    position: relative;
+  }
+  .state--default span:nth-child(4) {
+    margin-right: 5px;
+  }
+  .state--sent {
+    color: var(--text-color) !important;
+    opacity: 1 !important;
+    display: none;
+  }
+  .state--sent svg {
+    transform: scale(1.25);
+    margin-right: 8px;
+  }
+  .button:focus .state--default {
+    position: absolute;
+  }
+  .button:focus .state--sent,
+  .input-container:has(input[data-pressed="true"]) .state--sent {
+      display: flex;
+      animation: fadeIn 0.3s ease forwards;
+  }
+  .button:focus .state--sent span {
+    opacity: 0;
+    animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
+  }
+  .button:focus .state--sent .icon svg {
+    opacity: 0;
+    animation: appear 1.2s ease forwards 0.8s;
+  }
+  
+
+/* Animations */
+@keyframes pulseAndRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+  @keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(4) rotate(-40deg);
+        color: var(--secondary-glow);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        color: var(--text-color);
+    }
+  }
+@keyframes gridMove {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.glow-effect {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-50%) rotate(360deg);
+    }
+}
+@keyframes thinking {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+.button:focus .state--sent .icon svg {
+    animation: thinking 2s linear infinite;
+}
+.state p span {
+    color: var(--text-color);
+}
+
+.button:hover p span,
+.button:focus p span {
+    color: var(--text-color);
+}
+
+@keyframes fadeInLetter {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de rotación para el círculo */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animación de aparición suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Asegurar que el botón mantenga su estado durante toda la animación */
+.button:focus,
+.input-container:has(input[data-pressed="true"]) .button {
+    pointer-events: none;
+    animation: buttonPress 8s ease; /* Duración aumentada a 8 segundos */
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: scale(1);
+    }
+    2% {
+        transform: scale(0.95);
+    }
+    5% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Deshabilitar el input mientras procesa */
+.input-container:has(input[data-pressed="true"]) .ai-input,
+.button:focus ~ .ai-input {
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+/* Estado hover del botón */
+.button:hover:not(:focus) .state--default,
+.button:hover:not(:focus) .state--default .icon {
+    opacity: 1;
+}
+
+/* Asegurar que el ícono de carga siempre sea visible */
+.state--sent .icon svg {
+    opacity: 1 !important;
+    animation: appear 0.3s ease forwards, rotate 2s linear infinite !important;
+}
